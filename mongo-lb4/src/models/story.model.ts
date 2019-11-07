@@ -1,4 +1,5 @@
-import { Entity, model, property } from '@loopback/repository';
+import { Entity, model, property, hasMany } from '@loopback/repository';
+import { Task, TaskWithRelations } from './task.model';
 
 export interface MyObj { name: string, num: number };
 
@@ -8,7 +9,7 @@ export class Story extends Entity {
     type: 'string',
     id: true,
     generated: true,
-    mongodb: { dataType: 'ObjectID' }
+    //mongodb: { dataType: 'ObjectID' }
   })
   id?: string;
 
@@ -39,6 +40,8 @@ export class Story extends Entity {
   })
   objArray?: MyObj[];
 
+  @hasMany(() => Task)
+  tasks: Task[];
 
   constructor(data?: Partial<Story>) {
     super(data);
@@ -47,6 +50,7 @@ export class Story extends Entity {
 
 export interface StoryRelations {
   // describe navigational properties here
+  tasks?: TaskWithRelations;
 }
 
 export type StoryWithRelations = Story & StoryRelations;

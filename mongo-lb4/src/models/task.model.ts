@@ -1,4 +1,5 @@
-import { Entity, model, property } from '@loopback/repository';
+import { Entity, model, property, belongsTo } from '@loopback/repository';
+import { Story, StoryWithRelations } from './story.model';
 
 @model()
 export class Task extends Entity {
@@ -6,7 +7,7 @@ export class Task extends Entity {
     type: 'string',
     id: true,
     generated: true,
-    mongodb: { dataType: 'ObjectID' }
+    //mongodb: { dataType: 'ObjectID' }
   })
   id?: string;
 
@@ -16,6 +17,8 @@ export class Task extends Entity {
   })
   name: string;
 
+  @belongsTo(() => Story)
+  storyId: string;
 
   constructor(data?: Partial<Task>) {
     super(data);
@@ -24,6 +27,7 @@ export class Task extends Entity {
 
 export interface TaskRelations {
   // describe navigational properties here
+  story?: StoryWithRelations;
 }
 
 export type TaskWithRelations = Task & TaskRelations;
